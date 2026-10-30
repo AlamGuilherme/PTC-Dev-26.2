@@ -18,10 +18,11 @@ routes.delete("/users/:id", UserController.deleteUser);
 // CRUD de plantas
 routes.post("/plantas", PlantaController.createPlanta);
 routes.get("/plantas", PlantaController.readAllPlantas);
+routes.get("/plantas/esgotadas", PlantaController.readPlantasEsgotadas);
+routes.get("/plantas/estoque/valor-total", PlantaController.readValorTotalEstoque);
 routes.get("/plantas/:id", PlantaController.readPlantaById);
 routes.patch("/plantas/:id", PlantaController.updatePlanta);
 routes.delete("/plantas/:id", PlantaController.deletePlanta);
-routes.get("/plantas/estoque/valor-total", PlantaController.readValorTotalEstoque);
 routes.post("/plantas/:id/venda", PlantaController.venderPlanta);
 
 export default routes;
