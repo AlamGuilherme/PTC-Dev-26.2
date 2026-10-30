@@ -31,3 +31,9 @@ export const deletePlanta = async (id : number) => {
         where: { id: id}
     });
 };
+
+export const findPrecoEEstoque = async () => {
+    return await prisma.planta.findMany({
+        select: { preco: true, estoque: true },
+    });
+};
