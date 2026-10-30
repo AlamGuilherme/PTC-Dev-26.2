@@ -37,3 +37,10 @@ export const findPrecoEEstoque = async () => {
         select: { preco: true, estoque: true },
     });
 };
+
+export const decrementEstoque = async (id: number, quantidade: number) => {
+    return await prisma.planta.update({
+        where: { id: id },
+        data: { estoque: { decrement: quantidade } },
+    });
+};

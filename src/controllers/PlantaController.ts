@@ -217,3 +217,33 @@ export const readValorTotalEstoque = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Erro ao calcular valor do estoque." });
   }
 };
+
+export const venderPlanta = async (req: Request, res: Response) => {
+  try {
+    const id = lerId(req.params.id);
+    if (id === null) {
+      return res.status(400).json({ message: "id inválido." });
+    }
+
+    const quantidade = (req.body ?? {}).quantidade;
+    if (!Number.isInteger(quantidade) || quantidade <= 0) {
+      return res.status(400).json({ message: "quantidade deve ser um inteiro maior que zero." });
+    }
+
+    const planta = await PlantaRepository.findPlantaById(id);
+    if (!planta) {
+      return res.status(404).json({ message: "Planta não encontrada." });
+    }
+
+    if (planta.estoque < quantidade) {
+      return res.status(400).json({ message: `Temos só ${planta.estoque} vasos` });
+    }
+
+    const plantaAtualizada = await PlantaRepository.decrementEstoque(id, quantidade);
+
+    return res.status(200).json(plantaAtualizada);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Erro ao registrar venda." });
+  }
+};
